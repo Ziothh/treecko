@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use console::{Style, style};
+use console::{style, Style};
 
 #[derive(Debug)]
 pub enum ProjectLanguage {
@@ -27,6 +27,12 @@ impl Display for ProjectLanguage {
         write!(f, "{}", styler.apply_to(format!("{:?}", self)))
     }
 }
+
+const IGNORED_FOLDERS: &[&'static str] = &[
+  //
+  "node_modules",
+  ".git",
+];
 
 static PROJECT_VARIANT_PARSERS: &[fn(
     dir_entries: &crate::utils::DirData,
@@ -80,7 +86,16 @@ impl Project {
             results.push(project);
         } else {
             // Recursively retry
-            for p in dir_entries.iter().map(|x| x.path()).filter(|x| x.is_dir()) {
+            for p in dir_entries
+                .iter()
+                .map(|x| x.path())
+                .filter(|x| x.is_dir())
+                .filter(|p| {
+                    !IGNORED_FOLDERS
+                        .iter()
+                        .any(|folder_name| p.ends_with(folder_name))
+                })
+            {
                 if let Ok(mut r) = Project::find_recursively(&p) {
                     results.append(&mut r)
                 }

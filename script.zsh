@@ -4,7 +4,7 @@ function treecko {
 
   if [[ "$1" == "goto" ]]; then
     RES=$(eval "$TREECKO_BIN $@")
-    echo "Changing directory to\"$RES\""
+    echo "Changing directory to \"$RES\""
 
     cd $RES
   else
