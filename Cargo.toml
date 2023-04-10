@@ -10,5 +10,17 @@ path = "src/lib/mod.rs" # by default it is src/lib.rs
 [dependencies]
 anyhow = "1.0.70"
 clap = { version = "4.1.8", features = ["derive"] }
+console = "0.15.5"
+crossterm = "0.26.1"
+dialoguer = { version = "0.10.4", features = [
+  "editor",
+  "password" ,
+  "tempfile",
+  "zeroize",
+  "completion",
+  "fuzzy-matcher",
+  "fuzzy-select",
+  "history"
+] }
 shellexpand = "3.0.0"
 walkdir = "2.3.2"

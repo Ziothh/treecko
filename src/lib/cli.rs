@@ -1,4 +1,6 @@
-use clap::{Args, Parser, Subcommand};
+use clap::Parser;
+
+use crate::commands::Commands;
 
 #[derive(Debug, Parser)]
 #[clap(
@@ -20,27 +22,12 @@ pub struct CLI {
     // #[arg(short, long, action = clap::ArgAction::Count)]
     // debug: u8,
     #[clap(subcommand)]
-    pub command: Option<Commands>,
+    pub command: Commands,
+    // pub command: Option<Commands>,
 }
 
-#[derive(Debug, Subcommand)]
-pub enum Commands {
-    /// does testing things
-    // Test {
-    //     /// lists test values
-    //     #[arg(short, long)]
-    //     list: bool,
-
-    //     #[arg(short, long)]
-    //     verbose: bool,
-    // },
-    List(ListCommand),
-}
-
-#[derive(Debug, Args)]
-pub struct ListCommand {
-    pub path: String,
-
-    #[arg(short, long)]
-    pub verbose: bool,
+impl CLI {
+  pub fn run(&self) {
+    self.command.run();
+  }
 }
