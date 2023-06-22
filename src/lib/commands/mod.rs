@@ -2,12 +2,13 @@ use clap::Subcommand;
 
 use crate::commands::prelude::RunableCommand;
 
-use self::{list::ListCommand, goto::GotoCommand};
+use self::{goto::GotoCommand, list::ListCommand, shell::ShellCommand};
 
 pub mod prelude;
 
-pub mod list;
 pub mod goto;
+pub mod list;
+pub mod shell;
 
 #[derive(Debug, Subcommand)]
 pub enum Commands {
@@ -22,6 +23,7 @@ pub enum Commands {
     // },
     List(ListCommand),
     Goto(GotoCommand),
+    Shell(ShellCommand),
 }
 
 impl Commands {
@@ -29,6 +31,7 @@ impl Commands {
         match self {
             Self::List(list) => list.run(),
             Self::Goto(goto) => goto.run(),
+            Self::Shell(shell) => shell.run(),
         }
     }
 }
